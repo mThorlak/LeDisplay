@@ -37,6 +37,8 @@ void display_scroll_message() {
   {
     if (newMessageAvailable)
     {
+      P.displayClear();
+      P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
       strcpy(curMessage, newMessage);
       newMessageAvailable = false;
     }
@@ -73,8 +75,6 @@ void messageDispatcher(String message) {
       }
       i++;
     }
-    Serial.println(optionConcerned);
-    Serial.println(optionDirective);
   
     if (optionConcerned == "SS") {
       scrollSpeed = optionDirective.toInt();

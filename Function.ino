@@ -1,17 +1,17 @@
 /*
- * ----------------------------------------------------------------------------------
- * Bluetooth
- * ----------------------------------------------------------------------------------
- */
- 
+   ----------------------------------------------------------------------------------
+   Bluetooth
+   ----------------------------------------------------------------------------------
+*/
+
 /*
- * Read data send in bluetooth device
- * Send char[] MessageReceived into newMessage data
- * To change bluetooth configuration, checkout LeDisplay file
- */
+   Read data send in bluetooth device
+   Send char[] MessageReceived into newMessage data
+   To change bluetooth configuration, checkout LeDisplay file
+*/
 void readBluetooth(void)
 {
-  while (BluetoothSerial.available()){
+  while (BluetoothSerial.available()) {
     // Read message send by BluetoothSerial
     messageReceived = BluetoothSerial.readString();
     if (messageReceived != "") {
@@ -23,15 +23,15 @@ void readBluetooth(void)
 }
 
 /*
- * ----------------------------------------------------------------------------------
- * Display and scroll message
- * ----------------------------------------------------------------------------------
- */
+   ----------------------------------------------------------------------------------
+   Display and scroll message
+   ----------------------------------------------------------------------------------
+*/
 
 /*
- * Display messageReceived
- * To change scroll configuration, checkout LeDisplay file
- */
+   Display messageReceived
+   To change scroll configuration, checkout LeDisplay file
+*/
 void display_scroll_message() {
   if (P.displayAnimate())
   {
@@ -48,8 +48,8 @@ void display_scroll_message() {
 }
 
 /*
- * |SS25|SELeft|SALeft|SP2000|
- */
+   |SS25|SELeft|SALeft|SP2000|
+*/
 void messageDispatcher(String message) {
 
   int i = 0;
@@ -75,7 +75,7 @@ void messageDispatcher(String message) {
       }
       i++;
     }
-  
+
     if (optionConcerned == "SS") {
       scrollSpeed = optionDirective.toInt();
       Serial.print("ScrollSpeed : ");
@@ -99,32 +99,29 @@ void messageDispatcher(String message) {
     cptOptionConcerned = 0;
     optionConcerned = "";
     optionDirective = "";
- }
- String messageToDisplay = message.substring(i,message.length()-1);
- messageToDisplay.toCharArray(newMessage,BUF_SIZE);
-  
-}
- 
-/*
- * Case text effect
- */
-void manageTextEffect(String message) {
-  if(message == "No effect") {
-    scrollEffect = PA_NO_EFFECT;
   }
-  if(message == "Print") {
+  String messageToDisplay = message.substring(i, message.length() - 1);
+  messageToDisplay.toCharArray(newMessage, BUF_SIZE);
+
+}
+
+/*
+   Case text effect
+*/
+void manageTextEffect(String message) {
+  if (message == "Print") {
     scrollEffect = PA_PRINT;
   }
-  if(message == "Scroll Up") {
+  if (message == "Scroll Up") {
     scrollEffect = PA_SCROLL_UP;
   }
-  if(message == "Scroll Down") {
+  if (message == "Scroll Down") {
     scrollEffect = PA_SCROLL_DOWN;
   }
-  if(message == "Scroll Left") {
+  if (message == "Scroll Left") {
     scrollEffect = PA_SCROLL_LEFT;
   }
-  if(message == "Scroll Right") {
+  if (message == "Scroll Right") {
     scrollEffect = PA_SCROLL_RIGHT;
   }
   Serial.print("Message text effect : ");
@@ -132,8 +129,8 @@ void manageTextEffect(String message) {
 }
 
 /*
- * Case text position
- */
+   Case text position
+*/
 void manageTextPosition(String message) {
   if (message == "Center") {
     scrollAlign = PA_CENTER;

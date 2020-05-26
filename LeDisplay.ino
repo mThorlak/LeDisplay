@@ -8,6 +8,7 @@
 #include <SPI.h>
 #include <SoftwareSerial.h>
 #include <MD_UISwitch.h>
+#include "Parola_Fonts_data.h"
 
 const uint16_t WAIT_TIME = 1000;
 
@@ -32,7 +33,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Message show once
 char curMessage[BUF_SIZE] = { "LeDisplay" };
 // Message show in loop
-char newMessage[BUF_SIZE] = { "Insert new message" };
+char newMessage[BUF_SIZE] = { "Insert new message & é" };
 // Indicator when new message has been send by bluetooth serial
 bool newMessageAvailable = true;
 
@@ -94,4 +95,71 @@ sprite[] =
   { pacman2, W_PMAN2, F_PMAN2 },
   { pacman1, W_PMAN1, F_PMAN1 }
 };
+
+/*
+ * Define new character
+ */
+uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 }; // Deg C
+uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 }; // Deg F
+uint8_t waveSine[] = { 8, 1, 14, 112, 128, 128, 112, 14, 1 }; // Sine wave
+uint8_t waveSqar[] = { 8, 1, 1, 255, 128, 128, 128, 255, 1 }; // Square wave
+uint8_t waveTrng[] = { 10, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4 }; // Triangle wave
+
+/*
+ * ASCII conversion
+ */
+uint8_t utf8Ascii(uint8_t ascii)
+// Convert a single Character from UTF8 to Extended ASCII according to ISO 8859-1,
+// also called ISO Latin-1. Codes 128-159 contain the Microsoft Windows Latin-1
+// extended characters:
+// - codes 0..127 are identical in ASCII and UTF-8
+// - codes 160..191 in ISO-8859-1 and Windows-1252 are two-byte characters in UTF-8
+//                 + 0xC2 then second byte identical to the extended ASCII code.
+// - codes 192..255 in ISO-8859-1 and Windows-1252 are two-byte characters in UTF-8
+//                 + 0xC3 then second byte differs only in the first two bits to extended ASCII code.
+// - codes 128..159 in Windows-1252 are different, but usually only the €-symbol will be needed from this range.
+//                 + The euro symbol is 0x80 in Windows-1252, 0xa4 in ISO-8859-15, and 0xe2 0x82 0xac in UTF-8.
+//
+// Modified from original code at http://playground.arduino.cc/Main/Utf8ascii
+// Extended ASCII encoding should match the characters at http://www.ascii-code.com/
+//
+// Return "0" if a byte has to be ignored.
+{
+  static uint8_t cPrev;
+  uint8_t c = '\0';
+
+  if (ascii < 0x7f)   // Standard ASCII-set 0..0x7F, no conversion
+  {
+    cPrev = '\0';
+    c = ascii;
+  }
+  else
+  {
+    switch (cPrev)  // Conversion depending on preceding UTF8-character
+    {
+    case 0xC2: c = ascii;  break;
+    case 0xC3: c = ascii | 0xC0;  break;
+    case 0x82: if (ascii==0xAC) c = 0x80; // Euro symbol special case
+    }
+    cPrev = ascii;   // save last char
+  }
+
+  return(c);
+}
+
+void utf8Ascii(char* s)
+// In place conversion UTF-8 string to Extended ASCII
+// The extended ASCII string is always shorter.
+{
+  uint8_t c;
+  char *cp = s;
+
+  while (*s != '\0')
+  {
+    c = utf8Ascii(*s++);
+    if (c != '\0')
+      *cp++ = c;
+  }
+  *cp = '\0';   // terminate the new string
+}
  

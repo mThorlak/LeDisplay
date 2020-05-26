@@ -30,7 +30,7 @@ void readBluetooth(void)
 
 /*
    Display messageReceived
-   To change scroll configuration, checkout LeDisplay file
+   To change scroll configuration, check LeDisplay file
 */
 void display_scroll_message() {
   if (P.displayAnimate())
@@ -38,6 +38,7 @@ void display_scroll_message() {
     if (newMessageAvailable)
     {
       P.displayClear();
+      utf8Ascii(newMessage);
       P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
       strcpy(curMessage, newMessage);
       newMessageAvailable = false;

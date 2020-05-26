@@ -59,7 +59,6 @@ void messageDispatcher(String message) {
   bool lastOptionIsDispatched = false;
   String optionConcerned = "";
   String optionDirective = "";
-  Serial.println(message);
 
   while (lastOptionIsDispatched == false) {
 
@@ -79,8 +78,6 @@ void messageDispatcher(String message) {
 
     if (optionConcerned == "SS") {
       scrollSpeed = optionDirective.toInt();
-      Serial.print("ScrollSpeed : ");
-      Serial.println(scrollSpeed);
     }
     else if (optionConcerned == "SE") {
       manageTextEffect(optionDirective);
@@ -90,8 +87,6 @@ void messageDispatcher(String message) {
     }
     else if (optionConcerned == "SP") {
       scrollPause = optionDirective.toInt();
-      Serial.print("ScrollPause : ");
-      Serial.println(scrollPause);
       lastOptionIsDispatched = true;
       i++;
     }
@@ -125,8 +120,6 @@ void manageTextEffect(String message) {
   if (message == "Scroll Right") {
     scrollEffect = PA_SCROLL_RIGHT;
   }
-  Serial.print("Message text effect : ");
-  Serial.println(message);
 }
 
 /*
@@ -142,6 +135,4 @@ void manageTextPosition(String message) {
   if (message == "Right") {
     scrollAlign = PA_RIGHT;
   }
-  Serial.print("Manage text position : ");
-  Serial.println(message);
 }

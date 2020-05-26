@@ -31,9 +31,9 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Max size of the message to send
 #define  BUF_SIZE  100
 // Message show once
-char curMessage[BUF_SIZE] = { "LeDisplay" };
+char curMessage[BUF_SIZE] = { "Welcome" };
 // Message show in loop
-char newMessage[BUF_SIZE] = { "Insert new message & é" };
+char newMessage[BUF_SIZE] = { "Insert new message ~"};
 // Indicator when new message has been send by bluetooth serial
 bool newMessageAvailable = true;
 
@@ -59,6 +59,9 @@ const uint8_t INVERSE_SET = 9;    // set/reset the display to inverse
 uint8_t uiPins[] = { JUSTIFY_SET, INVERSE_SET };
 MD_UISwitch_Digital uiSwitches(uiPins, ARRAY_SIZE(uiPins));
 
+/*
+ * Sprite creation
+ */
 const uint8_t F_PMAN1 = 6;
 const uint8_t W_PMAN1 = 8;
 const uint8_t PROGMEM pacman1[F_PMAN1 * W_PMAN1] =  // gobbling pacman animation
@@ -104,27 +107,13 @@ uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 }; // Deg F
 uint8_t waveSine[] = { 8, 1, 14, 112, 128, 128, 112, 14, 1 }; // Sine wave
 uint8_t waveSqar[] = { 8, 1, 1, 255, 128, 128, 128, 255, 1 }; // Square wave
 uint8_t waveTrng[] = { 10, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4 }; // Triangle wave
+uint8_t arrowup[] = { 5, 4, 2, 127, 2, 4 }; // arrow up
+uint8_t bike[] = { 10, 64, 160, 176, 88, 16, 18, 82, 188, 160, 64 }; // bike
 
 /*
  * ASCII conversion
  */
-uint8_t utf8Ascii(uint8_t ascii)
-// Convert a single Character from UTF8 to Extended ASCII according to ISO 8859-1,
-// also called ISO Latin-1. Codes 128-159 contain the Microsoft Windows Latin-1
-// extended characters:
-// - codes 0..127 are identical in ASCII and UTF-8
-// - codes 160..191 in ISO-8859-1 and Windows-1252 are two-byte characters in UTF-8
-//                 + 0xC2 then second byte identical to the extended ASCII code.
-// - codes 192..255 in ISO-8859-1 and Windows-1252 are two-byte characters in UTF-8
-//                 + 0xC3 then second byte differs only in the first two bits to extended ASCII code.
-// - codes 128..159 in Windows-1252 are different, but usually only the €-symbol will be needed from this range.
-//                 + The euro symbol is 0x80 in Windows-1252, 0xa4 in ISO-8859-15, and 0xe2 0x82 0xac in UTF-8.
-//
-// Modified from original code at http://playground.arduino.cc/Main/Utf8ascii
-// Extended ASCII encoding should match the characters at http://www.ascii-code.com/
-//
-// Return "0" if a byte has to be ignored.
-{
+uint8_t utf8Ascii(uint8_t ascii){
   static uint8_t cPrev;
   uint8_t c = '\0';
 
@@ -147,10 +136,7 @@ uint8_t utf8Ascii(uint8_t ascii)
   return(c);
 }
 
-void utf8Ascii(char* s)
-// In place conversion UTF-8 string to Extended ASCII
-// The extended ASCII string is always shorter.
-{
+void utf8Ascii(char* s){
   uint8_t c;
   char *cp = s;
 

@@ -1,8 +1,12 @@
 /*
  * Works only with led matrix MAX72XX
  * You can see all possible feature in MD_Parola.h file
+ * And File example
  */
 
+/*
+ * Library used
+ */
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
@@ -12,11 +16,13 @@
 
 const uint16_t WAIT_TIME = 1000;
 
-// Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may
-// need to be adapted
+/*
+ * Hardware configuration
+ * Configured by default for
+ * -> Elegoo mega 2560
+ * -> Led matrix MAX7219
+ */
 #define HARDWARE_TYPE MD_MAX72XX::FC16_HW
-
 #define MAX_DEVICES 5
 #define CLK_PIN   52
 #define DATA_PIN  51
@@ -26,22 +32,23 @@ const uint16_t WAIT_TIME = 1000;
 MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 /*
- * Manage message configuration
- */
-// Max size of the message to send
-#define  BUF_SIZE  100
-// Message show once
-char curMessage[BUF_SIZE] = { "Welcome" };
-// Message show in loop
-char newMessage[BUF_SIZE] = { "Insert new message ~"};
-// Indicator when new message has been send by bluetooth serial
-bool newMessageAvailable = true;
-
-/*
  * Bluetooth configuration
  */
 SoftwareSerial BluetoothSerial(10, 11); // RX | TX  = > BT-TX=10 BT-RX=11
 String messageReceived;
+
+
+/*
+ * Manage message configuration
+ */
+// Max size of the message to send (in number of char)
+#define  BUF_SIZE  100
+// First message displayed
+char curMessage[BUF_SIZE] = { "Welcome" };
+// Message displayed in loop while no message give by user
+char newMessage[BUF_SIZE] = { "Insert new message"};
+// Indicator when new message has been send by bluetooth serial
+bool newMessageAvailable = true;
 
 /*
  * Scroll configuration 
@@ -60,7 +67,8 @@ uint8_t uiPins[] = { JUSTIFY_SET, INVERSE_SET };
 MD_UISwitch_Digital uiSwitches(uiPins, ARRAY_SIZE(uiPins));
 
 /*
- * Sprite creation
+ * Sprite creation 
+ * Here is how to use it -> https://arduinoplusplus.wordpress.com/2018/04/19/parola-a-to-z-sprite-text-effects/
  */
 const uint8_t F_PMAN1 = 6;
 const uint8_t W_PMAN1 = 8;
@@ -101,12 +109,10 @@ sprite[] =
 
 /*
  * Define new character
+ * Here is how to use it -> https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/
  */
 uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 }; // Deg C
 uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 }; // Deg F
-uint8_t waveSine[] = { 8, 1, 14, 112, 128, 128, 112, 14, 1 }; // Sine wave
-uint8_t waveSqar[] = { 8, 1, 1, 255, 128, 128, 128, 255, 1 }; // Square wave
-uint8_t waveTrng[] = { 10, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4 }; // Triangle wave
 uint8_t arrowup[] = { 5, 4, 2, 127, 2, 4 }; // arrow up
 uint8_t bike[] = { 10, 64, 160, 176, 88, 16, 18, 82, 188, 160, 64 }; // bike
 

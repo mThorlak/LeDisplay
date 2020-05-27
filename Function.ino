@@ -1,14 +1,14 @@
 /*
-   ----------------------------------------------------------------------------------
-   Bluetooth
-   ----------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------
+ Bluetooth
+ ----------------------------------------------------------------------------------
 */
 
 /*
-   Read data send in bluetooth device
-   Send char[] MessageReceived into newMessage data
-   To change bluetooth configuration, checkout LeDisplay file
-*/
+ * Read data send in bluetooth device
+ * Send char[] MessageReceived into newMessage data
+ * To change bluetooth configuration, checkout LeDisplay file
+ */
 void readBluetooth(void)
 {
   while (BluetoothSerial.available()) {
@@ -23,21 +23,22 @@ void readBluetooth(void)
 }
 
 /*
-   ----------------------------------------------------------------------------------
-   Display and scroll message
-   ----------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------
+ Display and scroll message
+ ----------------------------------------------------------------------------------
 */
 
 /*
-   Display messageReceived
-   To change scroll configuration, check LeDisplay file
-*/
+ * Display messageReceived
+ * To change scroll configuration, check LeDisplay file
+ */
 void display_scroll_message() {
   if (P.displayAnimate())
   {
     if (newMessageAvailable)
     {
       P.displayClear();
+      // Disable line below if you don't want to use UTF8
       utf8Ascii(newMessage);
       P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
       strcpy(curMessage, newMessage);
@@ -49,8 +50,10 @@ void display_scroll_message() {
 }
 
 /*
-   |SS25|SELeft|SALeft|SP2000|
-*/
+ * This function manage options given by the user
+ * it read them and add it into the configuration
+ * of the new message to display
+ */
 void messageDispatcher(String message) {
 
   int i = 0;
@@ -102,8 +105,8 @@ void messageDispatcher(String message) {
 }
 
 /*
-   Case text effect
-*/
+ * Manage text effect
+ */
 void manageTextEffect(String message) {
   if (message == "Print") {
     scrollEffect = PA_PRINT;
@@ -123,8 +126,8 @@ void manageTextEffect(String message) {
 }
 
 /*
-   Case text position
-*/
+ * Manage text position
+ */
 void manageTextPosition(String message) {
   if (message == "Center") {
     scrollAlign = PA_CENTER;

@@ -109,6 +109,8 @@ sprite[] =
 
 /*
  * Define new character
+ * You can create character easily with file Font_Builder
+ * Then, you just have to add it here
  * Here is how to use it -> https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/
  */
 uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 }; // Deg C
